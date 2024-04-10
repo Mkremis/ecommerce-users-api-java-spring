@@ -6,10 +6,12 @@ import com.ecommerce.api.security.entities.User;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users_likes")
+@Table(name = "users_likes", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "prodId"})
+})
 public class Likes {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -25,7 +27,8 @@ public class Likes {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Likes(){}
+//  Getters and setters
+
 
     public Long getId() {
         return id;

@@ -1,15 +1,13 @@
 package com.ecommerce.api.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.ecommerce.api.security.entities.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users_cart", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"user_id", "prodId"})
-})
-public class Cart {
+public class Purchases {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,12 +21,18 @@ public class Cart {
     private String priceCurrency;
     private int productQ;
 
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderId") // Quitamos la restricción unique aquí
+    private Transactions transaction;
+
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id") // Quitamos la restricción unique aquí
     private User user;
 
-    //  Getters and setters
+    // Getters and setters
 
 
     public Long getId() {
@@ -79,6 +83,14 @@ public class Cart {
         this.prodPrice = prodPrice;
     }
 
+    public String getPriceCurrency() {
+        return priceCurrency;
+    }
+
+    public void setPriceCurrency(String priceCurrency) {
+        this.priceCurrency = priceCurrency;
+    }
+
     public int getProductQ() {
         return productQ;
     }
@@ -87,12 +99,12 @@ public class Cart {
         this.productQ = productQ;
     }
 
-    public String getPriceCurrency() {
-        return priceCurrency;
+    public Transactions getTransaction() {
+        return transaction;
     }
 
-    public void setPriceCurrency(String priceCurrency) {
-        this.priceCurrency = priceCurrency;
+    public void setTransaction(Transactions transaction) {
+        this.transaction = transaction;
     }
 
     public User getUser() {

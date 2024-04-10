@@ -67,7 +67,7 @@ public class AuthController {
                                         @Valid @RequestBody LoginUser loginUser, BindingResult bidBindingResult) {
         // Verifica si hay errores de validación en el objeto LoginUser
         if (bidBindingResult.hasErrors()) {
-            return new ResponseEntity<>(new Message("Revise sus credenciales"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("fail","Revise sus credenciales"), HttpStatus.BAD_REQUEST);
         }
         try {
             // Autenticar al usuario con el AuthenticationManager
@@ -94,12 +94,12 @@ public class AuthController {
                 userData.put("thumbnail", user.getDashboard().getThumbnail());
             }
 
-            LoginResponse loginResponse = new LoginResponse(new Message("Sesión iniciada"), userData, user.getCarts(), user.getLikes());
+            LoginResponse loginResponse = new LoginResponse(new Message("success","Sesión iniciada"), userData, user.getCarts(), user.getLikes());
 
             return new ResponseEntity<>(loginResponse, HttpStatus.OK);
         } catch (Exception e) {
             // Manejo de excepciones y retorno de mensaje de error
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("fail", e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -108,7 +108,7 @@ public class AuthController {
     public ResponseEntity<Object> register(@Valid @RequestBody NewUser newUser, BindingResult bindingResult) {
         // Verifica si hay errores de validación en el objeto NewUser
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(new Message("Revise los campos e intente nuevamente"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("fail","Revise los campos e intente nuevamente"), HttpStatus.BAD_REQUEST);
         }
 
         // Crear un nuevo usuario con los datos proporcionados
@@ -125,7 +125,7 @@ public class AuthController {
         userService.save(user);
 
         // Retornar un mensaje de éxito
-        return new ResponseEntity<>(new Message("Registro exitoso! Inicie sesión"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new Message("success","Registro exitoso! Inicie sesión"), HttpStatus.CREATED);
     }
 
     // Endpoint para obtener detalles del usuario actual
@@ -136,7 +136,7 @@ public class AuthController {
         String userName = userDetails.getUsername();
         Optional<User> user = this.userService.getByUserName(userName);
         if (!user.isPresent()) {
-            return new ResponseEntity<>(new Message("No encontrado"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Message("fail","No encontrado"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }

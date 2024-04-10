@@ -1,6 +1,5 @@
 package com.ecommerce.api.dtos;
 
-import java.util.Optional;
 
 public class DashboardDTO {
     private String title;

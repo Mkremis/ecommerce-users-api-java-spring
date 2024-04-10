@@ -52,7 +52,7 @@ public class DashboardController {
         }
     }
 
-    @PutMapping("/dashboard")
+    @PatchMapping("/dashboard")
     public ResponseEntity<?> postDashboard(@RequestBody DashboardDTO dashboardDTO, HttpServletRequest request) {
         try {
             User user = cookieUtil.getUserFromCookie(request, cookieName);
@@ -64,7 +64,7 @@ public class DashboardController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la solicitud: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la solicitud" );
         }
     }
 

@@ -37,7 +37,7 @@ public class SessionController {
     public ResponseEntity<Message> logOut(HttpServletResponse httpServletResponse) {
         // Limpiar la cookie de autenticación
         CookieUtil.clear(httpServletResponse, cookieName);
-        return new ResponseEntity<>(new Message("Sesión cerrada"), HttpStatus.OK);
+        return new ResponseEntity<>(new Message("success","Sesión cerrada"), HttpStatus.OK);
     }
 
     // Endpoint para recargar la sesión del usuario
@@ -47,7 +47,7 @@ public class SessionController {
             // Obtener al usuario desde la cookie en la solicitud
             User user = cookieUtil.getUserFromCookie(request, cookieName);
             if (user == null) {
-                return new ResponseEntity<>(new Message("Sesión no válida"), HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>(new Message("fail","Sesión no válida"), HttpStatus.UNAUTHORIZED);
             } else {
                 // Crear un objeto LoginResponse con los datos del usuario y sus detalles
                 HashMap<String, String> userData = new HashMap<>();
@@ -57,14 +57,14 @@ public class SessionController {
                 if (dashboard != null) {
                     userData.put("thumbnail", user.getDashboard().getThumbnail());
                 }
-                LoginResponse loginResponse = new LoginResponse(new Message("Sesión persistente"), userData, user.getCarts(), user.getLikes());
+                LoginResponse loginResponse = new LoginResponse(new Message("success","Sesión persistente"), userData, user.getCarts(), user.getLikes());
 
                 // Retornar una respuesta con el objeto LoginResponse y el estado OK
                 return new ResponseEntity<>(loginResponse, HttpStatus.OK);
             }
         } catch (Exception e) {
             // En caso de error, retornar un mensaje de error y el estado BAD REQUEST
-            return new ResponseEntity<>(new Message("Error al verificar la sesión:" + e.getMessage() ), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("fail","Error al verificar la sesión" ), HttpStatus.BAD_REQUEST);
         }
     }
 

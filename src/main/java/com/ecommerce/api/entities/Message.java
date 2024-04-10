@@ -1,19 +1,29 @@
 package com.ecommerce.api.entities;
 
+import java.util.HashMap;
+
 public class Message {
-    private String infoMessage;
+    private String status;
+    private String message;
 
-    public Message(String infoMessage) {
-        this.infoMessage = infoMessage;
+    public Message(String status, String message) {
+        this.status = status;
+        this.message = message;
     }
 
-    public String getInfoMessage() {
-        return infoMessage;
+    public String getStatus() {
+        return status;
     }
 
-    public void setInfoMessage(String infoMessage) {
-        this.infoMessage = infoMessage;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
+    public String getMessage() {
+        return message;
+    }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }
